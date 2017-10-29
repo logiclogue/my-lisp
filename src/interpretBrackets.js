@@ -1,5 +1,4 @@
 var Result = require("./Result");
-var interpret = require("./interpret");
 var _ = require("lodash");
 
 function hasOpenBracket(input) {
@@ -15,6 +14,8 @@ function insideOfBrackets(input) {
 }
 
 function interpretBrackets(input) {
+    var interpret = require("./interpret");
+
     if (hasOpenBracket(input) && hasCloseBracket(input)) {
         return interpret(insideOfBrackets(input));
     }
