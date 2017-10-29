@@ -46,9 +46,9 @@ describe("interpret", function () {
         });
     });
 
-    context("Given (+ 5 2)", function () {
+    context("Given (add 5 2)", function () {
         it("returns 7", function () {
-            var result = interpret("(+ 5 2)");
+            var result = interpret("(add 5 2)");
 
             expect(result.valid).to.be.true;
             expect(result.value).to.equal(7);

@@ -19,6 +19,12 @@ function interpret(input) {
         return nameResult;
     }
 
+    var functionResult = interpretFunction(trimmedInput);
+
+    if (functionResult.valid) {
+        return functionResult;
+    }
+
     var bracketsResult = interpretBrackets(trimmedInput);
 
     if (bracketsResult.valid) {
@@ -48,8 +54,37 @@ function interpretName(input) {
     return new Result(false);
 }
 
+function getList(tokens, count) {
+    if (count >= tokens.length) {
+        return new Result(false);
+    }
+
+    var head = _.take(tokens, count).join(" ");
+    var tail = _.drop(tokens, count);
+    var result = interpret(head);
+
+    if (result.valid) {
+        var nextItem = getList(tail, 1);
+
+        if (tail.join(" ").trim() === "") {
+            return new Result(true, [result.value]);
+        } else {
+            return new Result(true, result.value.append(nextItem.value));
+        }
+
+        return new Result(true, [result.value, tail]);
+    }
+
+    return getList(tokens, count + 1);
+}
+
 function interpretFunction(input) {
     var tokens = input.split(/\s+/g);
+    var result = getList(tokens, 1);
+
+    console.log(result);
+
+    return new Result(false);
 }
 
 module.exports = interpret;
