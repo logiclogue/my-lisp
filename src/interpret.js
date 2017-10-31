@@ -55,30 +55,27 @@ function interpretName(input) {
 }
 
 function getList(tokens, count) {
-    if (count >= tokens.length) {
+    if (count > tokens.length) {
         return new Result(false);
     }
 
     var head = _.take(tokens, count).join(" ");
     var tail = _.drop(tokens, count);
-    var result = interpret(head);
+    var headResult = interpret(head);
+    var tailResult = getList(tail);
 
-    if (result.valid) {
-        var nextItem = getList(tail, 1);
-
-        if (tail.join(" ").trim() === "") {
-            return new Result(true, [result.value]);
-        } else {
-            return new Result(true, result.value.append(nextItem.value));
-        }
-
-        return new Result(true, [result.value, tail]);
+    if (resultHead.valid && tailResult.valid) {
+        return new Result(true, headResult.value.concat(tailResult.value));
     }
 
     return getList(tokens, count + 1);
 }
 
 function interpretFunction(input) {
+    if (input.match(/\(.+\)/g)[0] !== input) {
+        return new Result(false);
+    }
+
     var tokens = input.split(/\s+/g);
     var result = getList(tokens, 1);
 
