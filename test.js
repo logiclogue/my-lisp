@@ -54,4 +54,13 @@ describe("interpret", function () {
             expect(result.value).to.equal(7);
         });
     });
+
+    context("Given (add (minus 6 1) 2)", function () {
+        it("returns 7", function () {
+            var result = interpret("(add (minus 6 1) 2)");
+
+            expect(result.valid).to.be.true;
+            expect(result.value).to.equal(7);
+        });
+    });
 });

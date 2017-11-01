@@ -61,11 +61,13 @@ function getList(tokens, count) {
     var headResult = interpret(head);
     var tailResult;
 
-    if (headResult.valid) {
+    if (headResult.valid && tokens.length === count) {
+        return new Result(true, headResult.value);
+    } else if (headResult.valid) {
         tailResult = getList(tail, 1);
 
         if (tailResult.valid) {
-            return new Result(true, "YAY");
+            return new Result(true, [headResult.value].concat(tailResult.value));
         }
     }
 
@@ -88,7 +90,13 @@ function interpretFunction(input) {
 
     console.log(result);
 
-    return new Result(false);
+    if (result.value[0] === "add") {
+        return new Result(true, result.value[1] + result.value[2]);
+    } else if (result.value[0] === "minus") {
+        return new Result(true, result.value[1] - result.value[2]);
+    }
+
+    return result;
 }
 
 module.exports = interpret;
