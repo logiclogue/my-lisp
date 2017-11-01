@@ -55,28 +55,35 @@ function interpretName(input) {
 }
 
 function getList(tokens, count) {
-    if (count > tokens.length) {
-        return new Result(false);
-    }
-
     var head = _.take(tokens, count).join(" ");
+
     var tail = _.drop(tokens, count);
     var headResult = interpret(head);
-    var tailResult = getList(tail);
+    var tailResult;
 
-    if (resultHead.valid && tailResult.valid) {
-        return new Result(true, headResult.value.concat(tailResult.value));
+    if (headResult.valid) {
+        tailResult = getList(tail, 1);
+
+        if (tailResult.valid) {
+            return new Result(true, "YAY");
+        }
+    }
+
+    if (count > tokens.length) {
+        return new Result(false);
     }
 
     return getList(tokens, count + 1);
 }
 
 function interpretFunction(input) {
-    if (input.match(/\(.+\)/g)[0] !== input) {
+    var withoutBrackets = input.substring(1, input.length - 1);
+
+    if ("(" + withoutBrackets + ")" !== input) {
         return new Result(false);
     }
 
-    var tokens = input.split(/\s+/g);
+    var tokens = withoutBrackets.split(/\s+/g);
     var result = getList(tokens, 1);
 
     console.log(result);
