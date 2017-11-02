@@ -94,6 +94,14 @@ function interpretFunction(input) {
         return new Result(true, result.value[1] - result.value[2]);
     } else if (result.value[0] === "multiply") {
         return new Result(true, result.value[1] * result.value[2]);
+    } else if (result.value[0] === "equals") {
+        return new Result(true, result.value[1] === result.value[2]);
+    } else if (result.value[0] === "if") {
+        if (result.value[1]) {
+            return new Result(true, result.value[2]);
+        } else  {
+            return new Result(true, result.value[3]);
+        }
     }
 
     return result;
