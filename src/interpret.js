@@ -88,12 +88,12 @@ function interpretFunction(input) {
     var tokens = withoutBrackets.split(/\s+/g);
     var result = getList(tokens, 1);
 
-    console.log(result);
-
     if (result.value[0] === "add") {
         return new Result(true, result.value[1] + result.value[2]);
     } else if (result.value[0] === "minus") {
         return new Result(true, result.value[1] - result.value[2]);
+    } else if (result.value[0] === "multiply") {
+        return new Result(true, result.value[1] * result.value[2]);
     }
 
     return result;
