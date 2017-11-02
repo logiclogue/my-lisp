@@ -102,6 +102,8 @@ function interpretFunction(input) {
         } else  {
             return new Result(true, result.value[3]);
         }
+    } else if (result.value[0] === "id") {
+        return new Result(true, result.value[1]);
     }
 
     return result;
